@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify
 import os
-from openai import OpenAI
+import openai  # Modified import statement
 
 app = Flask(__name__)
 
 # Initialize OpenAI client with the API key
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # Ensure to set this in your environment variables
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Ensure to set this in your environment variables
 
 # User management with passwords
 users = {
@@ -44,14 +44,14 @@ def handle_request():
         user_data["budget"] -= estimated_cost
         try:
             # Call OpenAI API with the specified model using the client
-            response = client.chat.completions.create(
+            response = openai.ChatCompletion.create(  # Modified the OpenAI API call
                 model=model,
                 messages=[{"role": "user", "content": "Hello!"}],  # Replace with dynamic content if needed
                 max_tokens=tokens
             )
             return jsonify({
                 "message": "Request allowed.",
-                "response": response.choices[0].message.content.strip(),
+                "response": response.choices[0].message['content'].strip(),
                 "estimated_cost": estimated_cost
             }), 200
         except Exception as e:
