@@ -1,0 +1,4 @@
+Flask==2.3.2
+python-dotenv==1.0.0  # Optional, to help load environment variables
+openai==0.27.7        # OpenAI Python package for interacting with OpenAI API
+gunicorn==20.1.0      # To run the app in production with Gunicorn
